@@ -463,10 +463,11 @@ class Parser
      *
      * @param $msgid string msgid of the entry which should be updated
      * @param $translation array of strings new Translation for all msgstr by msgid
+     * @param $setFuzzy bool if true the fuzzy flag (if added) will be allowed in the entry
      *
      * @throws \Exception
      */
-    public function updateEntries($msgid, $translation)
+    public function updateEntries($msgid, $translation, $setFuzzy = false)
     {
         if (
             !isset($this->entriesAsArrays[$msgid])
@@ -475,7 +476,11 @@ class Parser
         ) {
             throw new \Exception('Cannot update entry translation');
         }
-        $this->removeFuzzyFlagForMsgId($msgid);
+
+        if (!$setFuzzy) {
+            $this->removeFuzzyFlagForMsgId($msgid);
+        }
+
         $this->entriesAsArrays[$msgid]['msgstr'] = $translation;
     }
 
@@ -484,12 +489,13 @@ class Parser
      *
      * @param $msgid string msgid of the entry which should be updated
      * @param $translation string new translation for an msgstr by msgid
+     * @param $setFuzzy bool if true the fuzzy flag (if added) will be allowed in the entry
      * @param $positionMsgstr integer spezification which of the msgstr
      *      should be changed
      *
      * @throws \Exception
      */
-    public function updateEntry($msgid, $translation, $positionMsgstr = 0)
+    public function updateEntry($msgid, $translation, $setFuzzy = false, $positionMsgstr = 0)
     {
         if (
             !isset($this->entriesAsArrays[$msgid])
@@ -498,7 +504,11 @@ class Parser
         ) {
             throw new \Exception('Cannot update entry translation');
         }
-        $this->removeFuzzyFlagForMsgId($msgid);
+        
+        if (!$setFuzzy) {
+            $this->removeFuzzyFlagForMsgId($msgid);
+        }        
+        
         $this->entriesAsArrays[$msgid]['msgstr'][$positionMsgstr] = $translation;
     }
 
