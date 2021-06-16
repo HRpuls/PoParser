@@ -525,16 +525,13 @@ class Parser
     }
 
     /**
-     *
+     * removes all fuzzy flags from .po entries
      */
     public function clearFuzzy()
     {
         foreach ($this->entriesAsArrays as &$entry) {
             if ($entry['fuzzy'] === true) {
-                $flags = $entry['flags'];
-                $entry['flags'] = str_replace('fuzzy', '', $flags);
-                $entry['fuzzy'] = false;
-                $entry['msgstr'] = array('');
+                $this->removeFuzzyFlagForMsgId($entry['msgid']);
             }
         }
     }
